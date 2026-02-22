@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package creddy.plugin.v1;
+
+option go_package = "github.com/getcreddy/creddy-plugin-sdk/proto";
+
+// Plugin service defines the gRPC interface for Creddy plugins
+service Plugin {
+  // Info returns plugin metadata
+  rpc Info(InfoRequest) returns (InfoResponse);
+  
+  // Scopes returns the scope patterns this plugin handles
+  rpc Scopes(ScopesRequest) returns (ScopesResponse);
+  
+  // Configure sets up the plugin with configuration
+  rpc Configure(ConfigureRequest) returns (ConfigureResponse);
+  
+  // Validate tests the plugin configuration
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+  
+  // GetCredential issues a new credential
+  rpc GetCredential(GetCredentialRequest) returns (GetCredentialResponse);
+  
+  // RevokeCredential revokes a previously issued credential
+  rpc RevokeCredential(RevokeCredentialRequest) returns (RevokeCredentialResponse);
+  
+  // MatchScope checks if the given scope matches this plugin
+  rpc MatchScope(MatchScopeRequest) returns (MatchScopeResponse);
+}
+
+message InfoRequest {}
+
+message InfoResponse {
+  string name = 1;
+  string version = 2;
+  string description = 3;
+  string min_creddy_version = 4;
+}
+
+message ScopesRequest {}
+
+message ScopeSpec {
+  string pattern = 1;
+  string description = 2;
+  repeated string examples = 3;
+}
+
+message ScopesResponse {
+  repeated ScopeSpec scopes = 1;
+}
+
+message ConfigureRequest {
+  string config_json = 1;
+}
+
+message ConfigureResponse {
+  string error = 1;
+}
+
+message ValidateRequest {}
+
+message ValidateResponse {
+  bool valid = 1;
+  string error = 2;
+}
+
+message Agent {
+  string id = 1;
+  string name = 2;
+  repeated string scopes = 3;
+}
+
+message GetCredentialRequest {
+  Agent agent = 1;
+  string scope = 2;
+  int64 ttl_seconds = 3;
+  map<string, string> parameters = 4;
+}
+
+message GetCredentialResponse {
+  string value = 1;
+  int64 expires_at_unix = 2;
+  string external_id = 3;
+  map<string, string> metadata = 4;
+  string error = 5;
+}
+
+message RevokeCredentialRequest {
+  string external_id = 1;
+}
+
+message RevokeCredentialResponse {
+  bool revoked = 1;
+  string error = 2;
+}
+
+message MatchScopeRequest {
+  string scope = 1;
+}
+
+message MatchScopeResponse {
+  bool matches = 1;
+}
