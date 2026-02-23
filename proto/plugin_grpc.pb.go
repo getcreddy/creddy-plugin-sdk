@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Plugin_Info_FullMethodName             = "/creddy.plugin.v1.Plugin/Info"
 	Plugin_Scopes_FullMethodName           = "/creddy.plugin.v1.Plugin/Scopes"
+	Plugin_ConfigSchema_FullMethodName     = "/creddy.plugin.v1.Plugin/ConfigSchema"
 	Plugin_Configure_FullMethodName        = "/creddy.plugin.v1.Plugin/Configure"
 	Plugin_Validate_FullMethodName         = "/creddy.plugin.v1.Plugin/Validate"
 	Plugin_GetCredential_FullMethodName    = "/creddy.plugin.v1.Plugin/GetCredential"
@@ -38,6 +39,8 @@ type PluginClient interface {
 	Info(ctx context.Context, in *InfoRequest, opts ...grpc.CallOption) (*InfoResponse, error)
 	// Scopes returns the scope patterns this plugin handles
 	Scopes(ctx context.Context, in *ScopesRequest, opts ...grpc.CallOption) (*ScopesResponse, error)
+	// ConfigSchema returns the configuration field schema for dynamic CLI flags
+	ConfigSchema(ctx context.Context, in *ConfigSchemaRequest, opts ...grpc.CallOption) (*ConfigSchemaResponse, error)
 	// Configure sets up the plugin with configuration
 	Configure(ctx context.Context, in *ConfigureRequest, opts ...grpc.CallOption) (*ConfigureResponse, error)
 	// Validate tests the plugin configuration
@@ -72,6 +75,16 @@ func (c *pluginClient) Scopes(ctx context.Context, in *ScopesRequest, opts ...gr
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ScopesResponse)
 	err := c.cc.Invoke(ctx, Plugin_Scopes_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pluginClient) ConfigSchema(ctx context.Context, in *ConfigSchemaRequest, opts ...grpc.CallOption) (*ConfigSchemaResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfigSchemaResponse)
+	err := c.cc.Invoke(ctx, Plugin_ConfigSchema_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -138,6 +151,8 @@ type PluginServer interface {
 	Info(context.Context, *InfoRequest) (*InfoResponse, error)
 	// Scopes returns the scope patterns this plugin handles
 	Scopes(context.Context, *ScopesRequest) (*ScopesResponse, error)
+	// ConfigSchema returns the configuration field schema for dynamic CLI flags
+	ConfigSchema(context.Context, *ConfigSchemaRequest) (*ConfigSchemaResponse, error)
 	// Configure sets up the plugin with configuration
 	Configure(context.Context, *ConfigureRequest) (*ConfigureResponse, error)
 	// Validate tests the plugin configuration
@@ -163,6 +178,9 @@ func (UnimplementedPluginServer) Info(context.Context, *InfoRequest) (*InfoRespo
 }
 func (UnimplementedPluginServer) Scopes(context.Context, *ScopesRequest) (*ScopesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Scopes not implemented")
+}
+func (UnimplementedPluginServer) ConfigSchema(context.Context, *ConfigSchemaRequest) (*ConfigSchemaResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ConfigSchema not implemented")
 }
 func (UnimplementedPluginServer) Configure(context.Context, *ConfigureRequest) (*ConfigureResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Configure not implemented")
@@ -232,6 +250,24 @@ func _Plugin_Scopes_Handler(srv interface{}, ctx context.Context, dec func(inter
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PluginServer).Scopes(ctx, req.(*ScopesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Plugin_ConfigSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfigSchemaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PluginServer).ConfigSchema(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Plugin_ConfigSchema_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PluginServer).ConfigSchema(ctx, req.(*ConfigSchemaRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -340,6 +376,10 @@ var Plugin_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Scopes",
 			Handler:    _Plugin_Scopes_Handler,
+		},
+		{
+			MethodName: "ConfigSchema",
+			Handler:    _Plugin_ConfigSchema_Handler,
 		},
 		{
 			MethodName: "Configure",

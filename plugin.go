@@ -79,6 +79,29 @@ type CredentialRequest struct {
 	Parameters map[string]string
 }
 
+// ConfigField describes a configuration field for dynamic CLI flags
+type ConfigField struct {
+	// Name is the field name in the JSON config (e.g., "app_id")
+	Name string
+
+	// Type is the field type:
+	//   "string" - plain text
+	//   "int"    - integer value
+	//   "bool"   - true/false
+	//   "file"   - path to file, CLI reads content
+	//   "secret" - sensitive value, masked in interactive mode
+	Type string
+
+	// Description is a human-readable description
+	Description string
+
+	// Required indicates if this field must be provided
+	Required bool
+
+	// Default is the default value (as a string, empty if none)
+	Default string
+}
+
 // Plugin is the interface that all Creddy plugins must implement
 type Plugin interface {
 	// Info returns plugin metadata
@@ -86,6 +109,10 @@ type Plugin interface {
 
 	// Scopes returns the scope patterns this plugin handles
 	Scopes(ctx context.Context) ([]ScopeSpec, error)
+
+	// ConfigSchema returns the configuration schema for dynamic CLI flags
+	// This allows the CLI to generate proper flags instead of requiring raw JSON
+	ConfigSchema(ctx context.Context) ([]ConfigField, error)
 
 	// Configure sets up the plugin with the given configuration
 	// Config is a JSON string with plugin-specific settings

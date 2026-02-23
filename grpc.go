@@ -60,6 +60,24 @@ func (s *GRPCServer) Scopes(ctx context.Context, req *pb.ScopesRequest) (*pb.Sco
 	return &pb.ScopesResponse{Scopes: pbScopes}, nil
 }
 
+func (s *GRPCServer) ConfigSchema(ctx context.Context, req *pb.ConfigSchemaRequest) (*pb.ConfigSchemaResponse, error) {
+	fields, err := s.Impl.ConfigSchema(ctx)
+	if err != nil {
+		return nil, err
+	}
+	pbFields := make([]*pb.ConfigField, len(fields))
+	for i, f := range fields {
+		pbFields[i] = &pb.ConfigField{
+			Name:        f.Name,
+			Type:        f.Type,
+			Description: f.Description,
+			Required:    f.Required,
+			Default:     f.Default,
+		}
+	}
+	return &pb.ConfigSchemaResponse{Fields: pbFields}, nil
+}
+
 func (s *GRPCServer) Configure(ctx context.Context, req *pb.ConfigureRequest) (*pb.ConfigureResponse, error) {
 	err := s.Impl.Configure(ctx, req.ConfigJson)
 	resp := &pb.ConfigureResponse{}
@@ -152,6 +170,24 @@ func (c *GRPCClient) Scopes(ctx context.Context) ([]ScopeSpec, error) {
 		}
 	}
 	return scopes, nil
+}
+
+func (c *GRPCClient) ConfigSchema(ctx context.Context) ([]ConfigField, error) {
+	resp, err := c.client.ConfigSchema(ctx, &pb.ConfigSchemaRequest{})
+	if err != nil {
+		return nil, err
+	}
+	fields := make([]ConfigField, len(resp.Fields))
+	for i, f := range resp.Fields {
+		fields[i] = ConfigField{
+			Name:        f.Name,
+			Type:        f.Type,
+			Description: f.Description,
+			Required:    f.Required,
+			Default:     f.Default,
+		}
+	}
+	return fields, nil
 }
 
 func (c *GRPCClient) Configure(ctx context.Context, config string) error {

@@ -12,6 +12,9 @@ service Plugin {
   // Scopes returns the scope patterns this plugin handles
   rpc Scopes(ScopesRequest) returns (ScopesResponse);
   
+  // ConfigSchema returns the configuration field schema for dynamic CLI flags
+  rpc ConfigSchema(ConfigSchemaRequest) returns (ConfigSchemaResponse);
+  
   // Configure sets up the plugin with configuration
   rpc Configure(ConfigureRequest) returns (ConfigureResponse);
   
@@ -47,6 +50,20 @@ message ScopeSpec {
 
 message ScopesResponse {
   repeated ScopeSpec scopes = 1;
+}
+
+message ConfigSchemaRequest {}
+
+message ConfigField {
+  string name = 1;
+  string type = 2;           // "string", "int", "bool", "file"
+  string description = 3;
+  bool required = 4;
+  string default = 5;
+}
+
+message ConfigSchemaResponse {
+  repeated ConfigField fields = 1;
 }
 
 message ConfigureRequest {

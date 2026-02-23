@@ -33,6 +33,8 @@ func runStandalone(p Plugin, cfg *StandaloneConfig) {
 		runInfo(ctx, p)
 	case "scopes":
 		runScopes(ctx, p)
+	case "schema":
+		runSchema(ctx, p)
 	case "validate":
 		runValidate(ctx, p, args, cfg)
 	case "get":
@@ -57,6 +59,7 @@ Usage:
 Commands:
   info       Show plugin information
   scopes     List supported scopes
+  schema     Show configuration schema (JSON output)
   validate   Validate configuration
   get        Get a credential
   revoke     Revoke a credential
@@ -68,6 +71,9 @@ Flags:
 Examples:
   # Show plugin info
   ./creddy-github info
+
+  # Show config schema (for CLI integration)
+  ./creddy-github schema
 
   # Validate configuration
   ./creddy-github validate --config config.json
@@ -109,6 +115,21 @@ func runScopes(ctx context.Context, p Plugin) {
 		}
 		fmt.Println()
 	}
+}
+
+func runSchema(ctx context.Context, p Plugin) {
+	fields, err := p.ConfigSchema(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+	}
+	// Output as JSON for CLI consumption
+	output, err := json.MarshalIndent(fields, "", "  ")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error marshaling schema: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Println(string(output))
 }
 
 func runValidate(ctx context.Context, p Plugin, args []string, cfg *StandaloneConfig) {
