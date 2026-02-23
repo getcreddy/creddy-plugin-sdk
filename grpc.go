@@ -132,7 +132,7 @@ func (s *GRPCServer) GetCredential(ctx context.Context, req *pb.GetCredentialReq
 	return &pb.GetCredentialResponse{
 		Value:         cred.Value,
 		ExpiresAtUnix: cred.ExpiresAt.Unix(),
-		ExternalId:    cred.ExternalID,
+		ExternalId:    cred.Credential, // proto field is external_id for backwards compat
 		Metadata:      cred.Metadata,
 	}, nil
 }
@@ -266,7 +266,7 @@ func (c *GRPCClient) GetCredential(ctx context.Context, req *CredentialRequest) 
 	return &Credential{
 		Value:      resp.Value,
 		ExpiresAt:  time.Unix(resp.ExpiresAtUnix, 0),
-		ExternalID: resp.ExternalId,
+		Credential: resp.ExternalId, // proto field is external_id for backwards compat
 		Metadata:   resp.Metadata,
 	}, nil
 }

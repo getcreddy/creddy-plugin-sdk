@@ -57,8 +57,10 @@ type Credential struct {
 	// ExpiresAt is when the credential expires
 	ExpiresAt time.Time
 
-	// ExternalID is an optional ID for revocation (empty if not revocable)
-	ExternalID string
+	// Credential is the actual credential/token needed to revoke this later.
+	// For GitHub, this is the token itself. Passed to RevokeCredential().
+	// Leave empty if the credential cannot be revoked.
+	Credential string
 
 	// Metadata is optional additional data about the credential
 	Metadata map[string]string

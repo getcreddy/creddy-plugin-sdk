@@ -242,8 +242,8 @@ func runGet(ctx context.Context, p Plugin, args []string, cfg *StandaloneConfig)
 
 	fmt.Printf("Credential Value: %s\n", cred.Value)
 	fmt.Printf("Expires At:       %s\n", cred.ExpiresAt.Format(time.RFC3339))
-	if cred.ExternalID != "" {
-		fmt.Printf("External ID:      %s\n", cred.ExternalID)
+	if cred.Credential != "" {
+		fmt.Printf("Revocation Cred:  %s\n", cred.Credential)
 	}
 	if len(cred.Metadata) > 0 {
 		fmt.Printf("Metadata:\n")
