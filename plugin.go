@@ -114,6 +114,10 @@ type Plugin interface {
 	// This allows the CLI to generate proper flags instead of requiring raw JSON
 	ConfigSchema(ctx context.Context) ([]ConfigField, error)
 
+	// Constraints returns the TTL constraints for this plugin
+	// Return nil if there are no constraints (any TTL is acceptable)
+	Constraints(ctx context.Context) (*Constraints, error)
+
 	// Configure sets up the plugin with the given configuration
 	// Config is a JSON string with plugin-specific settings
 	Configure(ctx context.Context, config string) error
@@ -139,4 +143,16 @@ type PluginConfig struct {
 
 	// Parsed config values (plugin-specific)
 	Values map[string]interface{}
+}
+
+// Constraints describes the TTL limits for a plugin
+type Constraints struct {
+	// MaxTTL is the maximum TTL this plugin supports (0 = no maximum)
+	MaxTTL time.Duration
+
+	// MinTTL is the minimum TTL this plugin supports (0 = no minimum)
+	MinTTL time.Duration
+
+	// Description explains the constraint (e.g., "GitHub installation tokens have a maximum lifetime of 1 hour")
+	Description string
 }

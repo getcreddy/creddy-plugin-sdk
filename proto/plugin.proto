@@ -15,6 +15,9 @@ service Plugin {
   // ConfigSchema returns the configuration field schema for dynamic CLI flags
   rpc ConfigSchema(ConfigSchemaRequest) returns (ConfigSchemaResponse);
   
+  // Constraints returns TTL constraints for this plugin
+  rpc Constraints(ConstraintsRequest) returns (ConstraintsResponse);
+  
   // Configure sets up the plugin with configuration
   rpc Configure(ConfigureRequest) returns (ConfigureResponse);
   
@@ -64,6 +67,19 @@ message ConfigField {
 
 message ConfigSchemaResponse {
   repeated ConfigField fields = 1;
+}
+
+message ConstraintsRequest {}
+
+message ConstraintsResponse {
+  // Whether constraints exist (false = no constraints, any TTL acceptable)
+  bool has_constraints = 1;
+  // Maximum TTL in seconds (0 = no maximum)
+  int64 max_ttl_seconds = 2;
+  // Minimum TTL in seconds (0 = no minimum)
+  int64 min_ttl_seconds = 3;
+  // Human-readable description of the constraint
+  string description = 4;
 }
 
 message ConfigureRequest {

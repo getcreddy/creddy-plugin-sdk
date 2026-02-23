@@ -78,6 +78,22 @@ func (s *GRPCServer) ConfigSchema(ctx context.Context, req *pb.ConfigSchemaReque
 	return &pb.ConfigSchemaResponse{Fields: pbFields}, nil
 }
 
+func (s *GRPCServer) Constraints(ctx context.Context, req *pb.ConstraintsRequest) (*pb.ConstraintsResponse, error) {
+	constraints, err := s.Impl.Constraints(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if constraints == nil {
+		return &pb.ConstraintsResponse{HasConstraints: false}, nil
+	}
+	return &pb.ConstraintsResponse{
+		HasConstraints: true,
+		MaxTtlSeconds:  int64(constraints.MaxTTL.Seconds()),
+		MinTtlSeconds:  int64(constraints.MinTTL.Seconds()),
+		Description:    constraints.Description,
+	}, nil
+}
+
 func (s *GRPCServer) Configure(ctx context.Context, req *pb.ConfigureRequest) (*pb.ConfigureResponse, error) {
 	err := s.Impl.Configure(ctx, req.ConfigJson)
 	resp := &pb.ConfigureResponse{}
@@ -188,6 +204,21 @@ func (c *GRPCClient) ConfigSchema(ctx context.Context) ([]ConfigField, error) {
 		}
 	}
 	return fields, nil
+}
+
+func (c *GRPCClient) Constraints(ctx context.Context) (*Constraints, error) {
+	resp, err := c.client.Constraints(ctx, &pb.ConstraintsRequest{})
+	if err != nil {
+		return nil, err
+	}
+	if !resp.HasConstraints {
+		return nil, nil
+	}
+	return &Constraints{
+		MaxTTL:      time.Duration(resp.MaxTtlSeconds) * time.Second,
+		MinTTL:      time.Duration(resp.MinTtlSeconds) * time.Second,
+		Description: resp.Description,
+	}, nil
 }
 
 func (c *GRPCClient) Configure(ctx context.Context, config string) error {

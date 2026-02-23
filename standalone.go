@@ -35,6 +35,8 @@ func runStandalone(p Plugin, cfg *StandaloneConfig) {
 		runScopes(ctx, p)
 	case "schema":
 		runSchema(ctx, p)
+	case "constraints":
+		runConstraints(ctx, p)
 	case "validate":
 		runValidate(ctx, p, args, cfg)
 	case "get":
@@ -57,13 +59,14 @@ Usage:
   plugin <command> [flags]
 
 Commands:
-  info       Show plugin information
-  scopes     List supported scopes
-  schema     Show configuration schema (JSON output)
-  validate   Validate configuration
-  get        Get a credential
-  revoke     Revoke a credential
-  help       Show this help
+  info        Show plugin information
+  scopes      List supported scopes
+  schema      Show configuration schema (JSON output)
+  constraints Show TTL constraints (max/min TTL)
+  validate    Validate configuration
+  get         Get a credential
+  revoke      Revoke a credential
+  help        Show this help
 
 Flags:
   --config   Path to JSON config file
@@ -71,6 +74,9 @@ Flags:
 Examples:
   # Show plugin info
   ./creddy-github info
+
+  # Show TTL constraints
+  ./creddy-github constraints
 
   # Show config schema (for CLI integration)
   ./creddy-github schema
@@ -130,6 +136,31 @@ func runSchema(ctx context.Context, p Plugin) {
 		os.Exit(1)
 	}
 	fmt.Println(string(output))
+}
+
+func runConstraints(ctx context.Context, p Plugin) {
+	constraints, err := p.Constraints(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+	}
+	if constraints == nil {
+		fmt.Println("No TTL constraints (any TTL is acceptable)")
+		return
+	}
+	if constraints.MaxTTL > 0 {
+		fmt.Printf("Max TTL: %s\n", constraints.MaxTTL)
+	} else {
+		fmt.Println("Max TTL: none")
+	}
+	if constraints.MinTTL > 0 {
+		fmt.Printf("Min TTL: %s\n", constraints.MinTTL)
+	} else {
+		fmt.Println("Min TTL: none")
+	}
+	if constraints.Description != "" {
+		fmt.Printf("Description: %s\n", constraints.Description)
+	}
 }
 
 func runValidate(ctx context.Context, p Plugin, args []string, cfg *StandaloneConfig) {

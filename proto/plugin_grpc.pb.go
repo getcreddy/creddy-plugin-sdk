@@ -22,6 +22,7 @@ const (
 	Plugin_Info_FullMethodName             = "/creddy.plugin.v1.Plugin/Info"
 	Plugin_Scopes_FullMethodName           = "/creddy.plugin.v1.Plugin/Scopes"
 	Plugin_ConfigSchema_FullMethodName     = "/creddy.plugin.v1.Plugin/ConfigSchema"
+	Plugin_Constraints_FullMethodName      = "/creddy.plugin.v1.Plugin/Constraints"
 	Plugin_Configure_FullMethodName        = "/creddy.plugin.v1.Plugin/Configure"
 	Plugin_Validate_FullMethodName         = "/creddy.plugin.v1.Plugin/Validate"
 	Plugin_GetCredential_FullMethodName    = "/creddy.plugin.v1.Plugin/GetCredential"
@@ -41,6 +42,8 @@ type PluginClient interface {
 	Scopes(ctx context.Context, in *ScopesRequest, opts ...grpc.CallOption) (*ScopesResponse, error)
 	// ConfigSchema returns the configuration field schema for dynamic CLI flags
 	ConfigSchema(ctx context.Context, in *ConfigSchemaRequest, opts ...grpc.CallOption) (*ConfigSchemaResponse, error)
+	// Constraints returns TTL constraints for this plugin
+	Constraints(ctx context.Context, in *ConstraintsRequest, opts ...grpc.CallOption) (*ConstraintsResponse, error)
 	// Configure sets up the plugin with configuration
 	Configure(ctx context.Context, in *ConfigureRequest, opts ...grpc.CallOption) (*ConfigureResponse, error)
 	// Validate tests the plugin configuration
@@ -85,6 +88,16 @@ func (c *pluginClient) ConfigSchema(ctx context.Context, in *ConfigSchemaRequest
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ConfigSchemaResponse)
 	err := c.cc.Invoke(ctx, Plugin_ConfigSchema_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pluginClient) Constraints(ctx context.Context, in *ConstraintsRequest, opts ...grpc.CallOption) (*ConstraintsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConstraintsResponse)
+	err := c.cc.Invoke(ctx, Plugin_Constraints_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -153,6 +166,8 @@ type PluginServer interface {
 	Scopes(context.Context, *ScopesRequest) (*ScopesResponse, error)
 	// ConfigSchema returns the configuration field schema for dynamic CLI flags
 	ConfigSchema(context.Context, *ConfigSchemaRequest) (*ConfigSchemaResponse, error)
+	// Constraints returns TTL constraints for this plugin
+	Constraints(context.Context, *ConstraintsRequest) (*ConstraintsResponse, error)
 	// Configure sets up the plugin with configuration
 	Configure(context.Context, *ConfigureRequest) (*ConfigureResponse, error)
 	// Validate tests the plugin configuration
@@ -181,6 +196,9 @@ func (UnimplementedPluginServer) Scopes(context.Context, *ScopesRequest) (*Scope
 }
 func (UnimplementedPluginServer) ConfigSchema(context.Context, *ConfigSchemaRequest) (*ConfigSchemaResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ConfigSchema not implemented")
+}
+func (UnimplementedPluginServer) Constraints(context.Context, *ConstraintsRequest) (*ConstraintsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method Constraints not implemented")
 }
 func (UnimplementedPluginServer) Configure(context.Context, *ConfigureRequest) (*ConfigureResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Configure not implemented")
@@ -268,6 +286,24 @@ func _Plugin_ConfigSchema_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PluginServer).ConfigSchema(ctx, req.(*ConfigSchemaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Plugin_Constraints_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConstraintsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PluginServer).Constraints(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Plugin_Constraints_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PluginServer).Constraints(ctx, req.(*ConstraintsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -380,6 +416,10 @@ var Plugin_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ConfigSchema",
 			Handler:    _Plugin_ConfigSchema_Handler,
+		},
+		{
+			MethodName: "Constraints",
+			Handler:    _Plugin_Constraints_Handler,
 		},
 		{
 			MethodName: "Configure",

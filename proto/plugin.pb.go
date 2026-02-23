@@ -421,6 +421,114 @@ func (x *ConfigSchemaResponse) GetFields() []*ConfigField {
 	return nil
 }
 
+type ConstraintsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConstraintsRequest) Reset() {
+	*x = ConstraintsRequest{}
+	mi := &file_proto_plugin_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConstraintsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConstraintsRequest) ProtoMessage() {}
+
+func (x *ConstraintsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_plugin_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConstraintsRequest.ProtoReflect.Descriptor instead.
+func (*ConstraintsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_plugin_proto_rawDescGZIP(), []int{8}
+}
+
+type ConstraintsResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Whether constraints exist (false = no constraints, any TTL acceptable)
+	HasConstraints bool `protobuf:"varint,1,opt,name=has_constraints,json=hasConstraints,proto3" json:"has_constraints,omitempty"`
+	// Maximum TTL in seconds (0 = no maximum)
+	MaxTtlSeconds int64 `protobuf:"varint,2,opt,name=max_ttl_seconds,json=maxTtlSeconds,proto3" json:"max_ttl_seconds,omitempty"`
+	// Minimum TTL in seconds (0 = no minimum)
+	MinTtlSeconds int64 `protobuf:"varint,3,opt,name=min_ttl_seconds,json=minTtlSeconds,proto3" json:"min_ttl_seconds,omitempty"`
+	// Human-readable description of the constraint
+	Description   string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConstraintsResponse) Reset() {
+	*x = ConstraintsResponse{}
+	mi := &file_proto_plugin_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConstraintsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConstraintsResponse) ProtoMessage() {}
+
+func (x *ConstraintsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_plugin_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConstraintsResponse.ProtoReflect.Descriptor instead.
+func (*ConstraintsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_plugin_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ConstraintsResponse) GetHasConstraints() bool {
+	if x != nil {
+		return x.HasConstraints
+	}
+	return false
+}
+
+func (x *ConstraintsResponse) GetMaxTtlSeconds() int64 {
+	if x != nil {
+		return x.MaxTtlSeconds
+	}
+	return 0
+}
+
+func (x *ConstraintsResponse) GetMinTtlSeconds() int64 {
+	if x != nil {
+		return x.MinTtlSeconds
+	}
+	return 0
+}
+
+func (x *ConstraintsResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
 type ConfigureRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ConfigJson    string                 `protobuf:"bytes,1,opt,name=config_json,json=configJson,proto3" json:"config_json,omitempty"`
@@ -430,7 +538,7 @@ type ConfigureRequest struct {
 
 func (x *ConfigureRequest) Reset() {
 	*x = ConfigureRequest{}
-	mi := &file_proto_plugin_proto_msgTypes[8]
+	mi := &file_proto_plugin_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -442,7 +550,7 @@ func (x *ConfigureRequest) String() string {
 func (*ConfigureRequest) ProtoMessage() {}
 
 func (x *ConfigureRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[8]
+	mi := &file_proto_plugin_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -455,7 +563,7 @@ func (x *ConfigureRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfigureRequest.ProtoReflect.Descriptor instead.
 func (*ConfigureRequest) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{8}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ConfigureRequest) GetConfigJson() string {
@@ -474,7 +582,7 @@ type ConfigureResponse struct {
 
 func (x *ConfigureResponse) Reset() {
 	*x = ConfigureResponse{}
-	mi := &file_proto_plugin_proto_msgTypes[9]
+	mi := &file_proto_plugin_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -486,7 +594,7 @@ func (x *ConfigureResponse) String() string {
 func (*ConfigureResponse) ProtoMessage() {}
 
 func (x *ConfigureResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[9]
+	mi := &file_proto_plugin_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -499,7 +607,7 @@ func (x *ConfigureResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfigureResponse.ProtoReflect.Descriptor instead.
 func (*ConfigureResponse) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{9}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ConfigureResponse) GetError() string {
@@ -517,7 +625,7 @@ type ValidateRequest struct {
 
 func (x *ValidateRequest) Reset() {
 	*x = ValidateRequest{}
-	mi := &file_proto_plugin_proto_msgTypes[10]
+	mi := &file_proto_plugin_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -529,7 +637,7 @@ func (x *ValidateRequest) String() string {
 func (*ValidateRequest) ProtoMessage() {}
 
 func (x *ValidateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[10]
+	mi := &file_proto_plugin_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -542,7 +650,7 @@ func (x *ValidateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateRequest.ProtoReflect.Descriptor instead.
 func (*ValidateRequest) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{10}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{12}
 }
 
 type ValidateResponse struct {
@@ -555,7 +663,7 @@ type ValidateResponse struct {
 
 func (x *ValidateResponse) Reset() {
 	*x = ValidateResponse{}
-	mi := &file_proto_plugin_proto_msgTypes[11]
+	mi := &file_proto_plugin_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -567,7 +675,7 @@ func (x *ValidateResponse) String() string {
 func (*ValidateResponse) ProtoMessage() {}
 
 func (x *ValidateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[11]
+	mi := &file_proto_plugin_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -580,7 +688,7 @@ func (x *ValidateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ValidateResponse.ProtoReflect.Descriptor instead.
 func (*ValidateResponse) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{11}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ValidateResponse) GetValid() bool {
@@ -608,7 +716,7 @@ type Agent struct {
 
 func (x *Agent) Reset() {
 	*x = Agent{}
-	mi := &file_proto_plugin_proto_msgTypes[12]
+	mi := &file_proto_plugin_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -620,7 +728,7 @@ func (x *Agent) String() string {
 func (*Agent) ProtoMessage() {}
 
 func (x *Agent) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[12]
+	mi := &file_proto_plugin_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -633,7 +741,7 @@ func (x *Agent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Agent.ProtoReflect.Descriptor instead.
 func (*Agent) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{12}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *Agent) GetId() string {
@@ -669,7 +777,7 @@ type GetCredentialRequest struct {
 
 func (x *GetCredentialRequest) Reset() {
 	*x = GetCredentialRequest{}
-	mi := &file_proto_plugin_proto_msgTypes[13]
+	mi := &file_proto_plugin_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -681,7 +789,7 @@ func (x *GetCredentialRequest) String() string {
 func (*GetCredentialRequest) ProtoMessage() {}
 
 func (x *GetCredentialRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[13]
+	mi := &file_proto_plugin_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -694,7 +802,7 @@ func (x *GetCredentialRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCredentialRequest.ProtoReflect.Descriptor instead.
 func (*GetCredentialRequest) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{13}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetCredentialRequest) GetAgent() *Agent {
@@ -738,7 +846,7 @@ type GetCredentialResponse struct {
 
 func (x *GetCredentialResponse) Reset() {
 	*x = GetCredentialResponse{}
-	mi := &file_proto_plugin_proto_msgTypes[14]
+	mi := &file_proto_plugin_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -750,7 +858,7 @@ func (x *GetCredentialResponse) String() string {
 func (*GetCredentialResponse) ProtoMessage() {}
 
 func (x *GetCredentialResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[14]
+	mi := &file_proto_plugin_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -763,7 +871,7 @@ func (x *GetCredentialResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCredentialResponse.ProtoReflect.Descriptor instead.
 func (*GetCredentialResponse) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{14}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetCredentialResponse) GetValue() string {
@@ -810,7 +918,7 @@ type RevokeCredentialRequest struct {
 
 func (x *RevokeCredentialRequest) Reset() {
 	*x = RevokeCredentialRequest{}
-	mi := &file_proto_plugin_proto_msgTypes[15]
+	mi := &file_proto_plugin_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -822,7 +930,7 @@ func (x *RevokeCredentialRequest) String() string {
 func (*RevokeCredentialRequest) ProtoMessage() {}
 
 func (x *RevokeCredentialRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[15]
+	mi := &file_proto_plugin_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -835,7 +943,7 @@ func (x *RevokeCredentialRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeCredentialRequest.ProtoReflect.Descriptor instead.
 func (*RevokeCredentialRequest) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{15}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *RevokeCredentialRequest) GetExternalId() string {
@@ -855,7 +963,7 @@ type RevokeCredentialResponse struct {
 
 func (x *RevokeCredentialResponse) Reset() {
 	*x = RevokeCredentialResponse{}
-	mi := &file_proto_plugin_proto_msgTypes[16]
+	mi := &file_proto_plugin_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -867,7 +975,7 @@ func (x *RevokeCredentialResponse) String() string {
 func (*RevokeCredentialResponse) ProtoMessage() {}
 
 func (x *RevokeCredentialResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[16]
+	mi := &file_proto_plugin_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -880,7 +988,7 @@ func (x *RevokeCredentialResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RevokeCredentialResponse.ProtoReflect.Descriptor instead.
 func (*RevokeCredentialResponse) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{16}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *RevokeCredentialResponse) GetRevoked() bool {
@@ -906,7 +1014,7 @@ type MatchScopeRequest struct {
 
 func (x *MatchScopeRequest) Reset() {
 	*x = MatchScopeRequest{}
-	mi := &file_proto_plugin_proto_msgTypes[17]
+	mi := &file_proto_plugin_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -918,7 +1026,7 @@ func (x *MatchScopeRequest) String() string {
 func (*MatchScopeRequest) ProtoMessage() {}
 
 func (x *MatchScopeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[17]
+	mi := &file_proto_plugin_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -931,7 +1039,7 @@ func (x *MatchScopeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MatchScopeRequest.ProtoReflect.Descriptor instead.
 func (*MatchScopeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{17}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *MatchScopeRequest) GetScope() string {
@@ -950,7 +1058,7 @@ type MatchScopeResponse struct {
 
 func (x *MatchScopeResponse) Reset() {
 	*x = MatchScopeResponse{}
-	mi := &file_proto_plugin_proto_msgTypes[18]
+	mi := &file_proto_plugin_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -962,7 +1070,7 @@ func (x *MatchScopeResponse) String() string {
 func (*MatchScopeResponse) ProtoMessage() {}
 
 func (x *MatchScopeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_plugin_proto_msgTypes[18]
+	mi := &file_proto_plugin_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -975,7 +1083,7 @@ func (x *MatchScopeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MatchScopeResponse.ProtoReflect.Descriptor instead.
 func (*MatchScopeResponse) Descriptor() ([]byte, []int) {
-	return file_proto_plugin_proto_rawDescGZIP(), []int{18}
+	return file_proto_plugin_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *MatchScopeResponse) GetMatches() bool {
@@ -1011,7 +1119,13 @@ const file_proto_plugin_proto_rawDesc = "" +
 	"\brequired\x18\x04 \x01(\bR\brequired\x12\x18\n" +
 	"\adefault\x18\x05 \x01(\tR\adefault\"M\n" +
 	"\x14ConfigSchemaResponse\x125\n" +
-	"\x06fields\x18\x01 \x03(\v2\x1d.creddy.plugin.v1.ConfigFieldR\x06fields\"3\n" +
+	"\x06fields\x18\x01 \x03(\v2\x1d.creddy.plugin.v1.ConfigFieldR\x06fields\"\x14\n" +
+	"\x12ConstraintsRequest\"\xb0\x01\n" +
+	"\x13ConstraintsResponse\x12'\n" +
+	"\x0fhas_constraints\x18\x01 \x01(\bR\x0ehasConstraints\x12&\n" +
+	"\x0fmax_ttl_seconds\x18\x02 \x01(\x03R\rmaxTtlSeconds\x12&\n" +
+	"\x0fmin_ttl_seconds\x18\x03 \x01(\x03R\rminTtlSeconds\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\"3\n" +
 	"\x10ConfigureRequest\x12\x1f\n" +
 	"\vconfig_json\x18\x01 \x01(\tR\n" +
 	"configJson\")\n" +
@@ -1055,11 +1169,12 @@ const file_proto_plugin_proto_rawDesc = "" +
 	"\x11MatchScopeRequest\x12\x14\n" +
 	"\x05scope\x18\x01 \x01(\tR\x05scope\".\n" +
 	"\x12MatchScopeResponse\x12\x18\n" +
-	"\amatches\x18\x01 \x01(\bR\amatches2\xca\x05\n" +
+	"\amatches\x18\x01 \x01(\bR\amatches2\xa6\x06\n" +
 	"\x06Plugin\x12E\n" +
 	"\x04Info\x12\x1d.creddy.plugin.v1.InfoRequest\x1a\x1e.creddy.plugin.v1.InfoResponse\x12K\n" +
 	"\x06Scopes\x12\x1f.creddy.plugin.v1.ScopesRequest\x1a .creddy.plugin.v1.ScopesResponse\x12]\n" +
-	"\fConfigSchema\x12%.creddy.plugin.v1.ConfigSchemaRequest\x1a&.creddy.plugin.v1.ConfigSchemaResponse\x12T\n" +
+	"\fConfigSchema\x12%.creddy.plugin.v1.ConfigSchemaRequest\x1a&.creddy.plugin.v1.ConfigSchemaResponse\x12Z\n" +
+	"\vConstraints\x12$.creddy.plugin.v1.ConstraintsRequest\x1a%.creddy.plugin.v1.ConstraintsResponse\x12T\n" +
 	"\tConfigure\x12\".creddy.plugin.v1.ConfigureRequest\x1a#.creddy.plugin.v1.ConfigureResponse\x12Q\n" +
 	"\bValidate\x12!.creddy.plugin.v1.ValidateRequest\x1a\".creddy.plugin.v1.ValidateResponse\x12`\n" +
 	"\rGetCredential\x12&.creddy.plugin.v1.GetCredentialRequest\x1a'.creddy.plugin.v1.GetCredentialResponse\x12i\n" +
@@ -1079,7 +1194,7 @@ func file_proto_plugin_proto_rawDescGZIP() []byte {
 	return file_proto_plugin_proto_rawDescData
 }
 
-var file_proto_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_proto_plugin_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_proto_plugin_proto_goTypes = []any{
 	(*InfoRequest)(nil),              // 0: creddy.plugin.v1.InfoRequest
 	(*InfoResponse)(nil),             // 1: creddy.plugin.v1.InfoResponse
@@ -1089,44 +1204,48 @@ var file_proto_plugin_proto_goTypes = []any{
 	(*ConfigSchemaRequest)(nil),      // 5: creddy.plugin.v1.ConfigSchemaRequest
 	(*ConfigField)(nil),              // 6: creddy.plugin.v1.ConfigField
 	(*ConfigSchemaResponse)(nil),     // 7: creddy.plugin.v1.ConfigSchemaResponse
-	(*ConfigureRequest)(nil),         // 8: creddy.plugin.v1.ConfigureRequest
-	(*ConfigureResponse)(nil),        // 9: creddy.plugin.v1.ConfigureResponse
-	(*ValidateRequest)(nil),          // 10: creddy.plugin.v1.ValidateRequest
-	(*ValidateResponse)(nil),         // 11: creddy.plugin.v1.ValidateResponse
-	(*Agent)(nil),                    // 12: creddy.plugin.v1.Agent
-	(*GetCredentialRequest)(nil),     // 13: creddy.plugin.v1.GetCredentialRequest
-	(*GetCredentialResponse)(nil),    // 14: creddy.plugin.v1.GetCredentialResponse
-	(*RevokeCredentialRequest)(nil),  // 15: creddy.plugin.v1.RevokeCredentialRequest
-	(*RevokeCredentialResponse)(nil), // 16: creddy.plugin.v1.RevokeCredentialResponse
-	(*MatchScopeRequest)(nil),        // 17: creddy.plugin.v1.MatchScopeRequest
-	(*MatchScopeResponse)(nil),       // 18: creddy.plugin.v1.MatchScopeResponse
-	nil,                              // 19: creddy.plugin.v1.GetCredentialRequest.ParametersEntry
-	nil,                              // 20: creddy.plugin.v1.GetCredentialResponse.MetadataEntry
+	(*ConstraintsRequest)(nil),       // 8: creddy.plugin.v1.ConstraintsRequest
+	(*ConstraintsResponse)(nil),      // 9: creddy.plugin.v1.ConstraintsResponse
+	(*ConfigureRequest)(nil),         // 10: creddy.plugin.v1.ConfigureRequest
+	(*ConfigureResponse)(nil),        // 11: creddy.plugin.v1.ConfigureResponse
+	(*ValidateRequest)(nil),          // 12: creddy.plugin.v1.ValidateRequest
+	(*ValidateResponse)(nil),         // 13: creddy.plugin.v1.ValidateResponse
+	(*Agent)(nil),                    // 14: creddy.plugin.v1.Agent
+	(*GetCredentialRequest)(nil),     // 15: creddy.plugin.v1.GetCredentialRequest
+	(*GetCredentialResponse)(nil),    // 16: creddy.plugin.v1.GetCredentialResponse
+	(*RevokeCredentialRequest)(nil),  // 17: creddy.plugin.v1.RevokeCredentialRequest
+	(*RevokeCredentialResponse)(nil), // 18: creddy.plugin.v1.RevokeCredentialResponse
+	(*MatchScopeRequest)(nil),        // 19: creddy.plugin.v1.MatchScopeRequest
+	(*MatchScopeResponse)(nil),       // 20: creddy.plugin.v1.MatchScopeResponse
+	nil,                              // 21: creddy.plugin.v1.GetCredentialRequest.ParametersEntry
+	nil,                              // 22: creddy.plugin.v1.GetCredentialResponse.MetadataEntry
 }
 var file_proto_plugin_proto_depIdxs = []int32{
 	3,  // 0: creddy.plugin.v1.ScopesResponse.scopes:type_name -> creddy.plugin.v1.ScopeSpec
 	6,  // 1: creddy.plugin.v1.ConfigSchemaResponse.fields:type_name -> creddy.plugin.v1.ConfigField
-	12, // 2: creddy.plugin.v1.GetCredentialRequest.agent:type_name -> creddy.plugin.v1.Agent
-	19, // 3: creddy.plugin.v1.GetCredentialRequest.parameters:type_name -> creddy.plugin.v1.GetCredentialRequest.ParametersEntry
-	20, // 4: creddy.plugin.v1.GetCredentialResponse.metadata:type_name -> creddy.plugin.v1.GetCredentialResponse.MetadataEntry
+	14, // 2: creddy.plugin.v1.GetCredentialRequest.agent:type_name -> creddy.plugin.v1.Agent
+	21, // 3: creddy.plugin.v1.GetCredentialRequest.parameters:type_name -> creddy.plugin.v1.GetCredentialRequest.ParametersEntry
+	22, // 4: creddy.plugin.v1.GetCredentialResponse.metadata:type_name -> creddy.plugin.v1.GetCredentialResponse.MetadataEntry
 	0,  // 5: creddy.plugin.v1.Plugin.Info:input_type -> creddy.plugin.v1.InfoRequest
 	2,  // 6: creddy.plugin.v1.Plugin.Scopes:input_type -> creddy.plugin.v1.ScopesRequest
 	5,  // 7: creddy.plugin.v1.Plugin.ConfigSchema:input_type -> creddy.plugin.v1.ConfigSchemaRequest
-	8,  // 8: creddy.plugin.v1.Plugin.Configure:input_type -> creddy.plugin.v1.ConfigureRequest
-	10, // 9: creddy.plugin.v1.Plugin.Validate:input_type -> creddy.plugin.v1.ValidateRequest
-	13, // 10: creddy.plugin.v1.Plugin.GetCredential:input_type -> creddy.plugin.v1.GetCredentialRequest
-	15, // 11: creddy.plugin.v1.Plugin.RevokeCredential:input_type -> creddy.plugin.v1.RevokeCredentialRequest
-	17, // 12: creddy.plugin.v1.Plugin.MatchScope:input_type -> creddy.plugin.v1.MatchScopeRequest
-	1,  // 13: creddy.plugin.v1.Plugin.Info:output_type -> creddy.plugin.v1.InfoResponse
-	4,  // 14: creddy.plugin.v1.Plugin.Scopes:output_type -> creddy.plugin.v1.ScopesResponse
-	7,  // 15: creddy.plugin.v1.Plugin.ConfigSchema:output_type -> creddy.plugin.v1.ConfigSchemaResponse
-	9,  // 16: creddy.plugin.v1.Plugin.Configure:output_type -> creddy.plugin.v1.ConfigureResponse
-	11, // 17: creddy.plugin.v1.Plugin.Validate:output_type -> creddy.plugin.v1.ValidateResponse
-	14, // 18: creddy.plugin.v1.Plugin.GetCredential:output_type -> creddy.plugin.v1.GetCredentialResponse
-	16, // 19: creddy.plugin.v1.Plugin.RevokeCredential:output_type -> creddy.plugin.v1.RevokeCredentialResponse
-	18, // 20: creddy.plugin.v1.Plugin.MatchScope:output_type -> creddy.plugin.v1.MatchScopeResponse
-	13, // [13:21] is the sub-list for method output_type
-	5,  // [5:13] is the sub-list for method input_type
+	8,  // 8: creddy.plugin.v1.Plugin.Constraints:input_type -> creddy.plugin.v1.ConstraintsRequest
+	10, // 9: creddy.plugin.v1.Plugin.Configure:input_type -> creddy.plugin.v1.ConfigureRequest
+	12, // 10: creddy.plugin.v1.Plugin.Validate:input_type -> creddy.plugin.v1.ValidateRequest
+	15, // 11: creddy.plugin.v1.Plugin.GetCredential:input_type -> creddy.plugin.v1.GetCredentialRequest
+	17, // 12: creddy.plugin.v1.Plugin.RevokeCredential:input_type -> creddy.plugin.v1.RevokeCredentialRequest
+	19, // 13: creddy.plugin.v1.Plugin.MatchScope:input_type -> creddy.plugin.v1.MatchScopeRequest
+	1,  // 14: creddy.plugin.v1.Plugin.Info:output_type -> creddy.plugin.v1.InfoResponse
+	4,  // 15: creddy.plugin.v1.Plugin.Scopes:output_type -> creddy.plugin.v1.ScopesResponse
+	7,  // 16: creddy.plugin.v1.Plugin.ConfigSchema:output_type -> creddy.plugin.v1.ConfigSchemaResponse
+	9,  // 17: creddy.plugin.v1.Plugin.Constraints:output_type -> creddy.plugin.v1.ConstraintsResponse
+	11, // 18: creddy.plugin.v1.Plugin.Configure:output_type -> creddy.plugin.v1.ConfigureResponse
+	13, // 19: creddy.plugin.v1.Plugin.Validate:output_type -> creddy.plugin.v1.ValidateResponse
+	16, // 20: creddy.plugin.v1.Plugin.GetCredential:output_type -> creddy.plugin.v1.GetCredentialResponse
+	18, // 21: creddy.plugin.v1.Plugin.RevokeCredential:output_type -> creddy.plugin.v1.RevokeCredentialResponse
+	20, // 22: creddy.plugin.v1.Plugin.MatchScope:output_type -> creddy.plugin.v1.MatchScopeResponse
+	14, // [14:23] is the sub-list for method output_type
+	5,  // [5:14] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name
@@ -1143,7 +1262,7 @@ func file_proto_plugin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_plugin_proto_rawDesc), len(file_proto_plugin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
